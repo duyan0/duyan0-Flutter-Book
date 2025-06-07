@@ -13,7 +13,7 @@ class ApiService {
 
   Future<List<User>?> getAllUsers() async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl'), headers: headers);
+      final response = await http.get(Uri.parse(baseUrl), headers: headers);
 
       if (response.statusCode == 200) {
         List<dynamic> jsonList = jsonDecode(response.body);

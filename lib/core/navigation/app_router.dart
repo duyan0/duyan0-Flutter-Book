@@ -1,5 +1,5 @@
 // ignore: unused_import
-import 'package:flutter/material.dart';
+import 'package:bookstore/features/auth/presentation/pages/home_page.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/pages/forgot_password_page.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
@@ -25,6 +25,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: AppRoutes.forgotPassword,
       builder: (context, state) => const ForgotPasswordPage(),
+    ),
+    GoRoute(
+      path: AppRoutes.home,
+      builder: (context, state) => const HomePage(),
     ),
   ],
 );

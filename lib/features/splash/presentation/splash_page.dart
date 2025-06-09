@@ -27,7 +27,7 @@ class _SplashPageState extends State<SplashPage>
     );
     _fadeAnimation = Tween<double>(
       begin: 0.0,
-      end: 1.0, // Sửa lỗi opacity
+      end: 1.0,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
     _scaleAnimation = Tween<double>(
       begin: 0.8,
@@ -40,7 +40,8 @@ class _SplashPageState extends State<SplashPage>
     // Chuyển hướng sau 2 giây
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
-        context.go(AppRoutes.home);
+        // Thử cách chuyển hướng khác
+        context.go('/home');
       }
     });
   }
@@ -84,7 +85,6 @@ class _SplashPageState extends State<SplashPage>
                       color: AppColors.primaryColor, // #C92127
                       fontSize: 36,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'Lora',
                       letterSpacing: 1.2,
                     ),
                   ),

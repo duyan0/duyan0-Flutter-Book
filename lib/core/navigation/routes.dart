@@ -3,8 +3,9 @@ class AppRoutes {
   static const String login = '/login';
   static const String register = '/register';
   static const String forgotPassword = '/forgot-password';
-  static const String home = '/home-page';
-  static const String news = '/home-page';
-  static const String profile = '/home-page';
-  static const String notifications = '/home-page';
+  static const String home = '/home';
+  static const String news = '/news';
+  static const String cart = '/cart';
+  static const String profile = '/profile';
+  static const String notifications = '/notifications';
 }

@@ -61,8 +61,8 @@ class _AuthTextFieldState extends State<AuthTextField> {
           labelText: widget.label,
           labelStyle: TextStyle(
             color: _isFocused ? AppColors.primaryColor : AppColors.textColor,
-            fontFamily: 'Lora',
             fontSize: 16,
+            fontWeight: FontWeight.w500,
           ),
           prefixIcon:
               widget.prefixIcon != null
@@ -117,10 +117,10 @@ class _AuthTextFieldState extends State<AuthTextField> {
             borderSide: const BorderSide(color: AppColors.errorColor, width: 2),
           ),
         ),
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.textColor,
-          fontFamily: 'Roboto',
           fontSize: 16,
+          fontWeight: FontWeight.w500,
         ),
         validator: widget.validator,
       ),

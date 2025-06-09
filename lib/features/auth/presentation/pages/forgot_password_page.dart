@@ -39,10 +39,9 @@ class ForgotPasswordPage extends StatelessWidget {
                         Text(
                           'Khôi phục tài khoản',
                           style: TextStyle(
-                            color: AppColors.primaryColor, // #C92127
+                            color: AppColors.primaryColor,
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
-                            fontFamily: 'Lora',
                           ),
                         ),
                         const SizedBox(height: 8),

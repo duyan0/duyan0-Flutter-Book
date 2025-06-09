@@ -193,6 +193,7 @@ class AccountPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
+                          
                           _buildOrderStatusItem(Icons.payment, 'Chờ thanh toán'),
                           _buildOrderStatusItem(Icons.inventory_2, 'Đang xử lý'),
                           _buildOrderStatusItem(Icons.local_shipping, 'Đang giao hàng'),

@@ -13,6 +13,11 @@ import 'package:bookstore/features/product/screens/product_detail_screen.dart';
 import 'package:bookstore/features/auth/presentation/pages/account_page.dart';
 import 'package:bookstore/features/auth/presentation/pages/suggestions_page.dart';
 import 'package:bookstore/features/auth/presentation/pages/notifications_page.dart';
+import 'package:bookstore/features/admin/presentation/pages/admin_dashboard.dart';
+import 'package:bookstore/features/admin/presentation/pages/book_management.dart';
+import 'package:bookstore/features/admin/presentation/pages/order_management.dart';
+import 'admin_routes.dart';
+import 'admin_router.dart';
 
 // HomeShell widget for fixed bottom navigation
 class HomeShell extends StatefulWidget {
@@ -167,6 +172,63 @@ final GoRouter router = GoRouter(
           path: '/cart',
           name: 'cart',
           builder: (context, state) => const CartPage(),
+        ),
+      ],
+    ),
+    // Admin routes
+    ShellRoute(
+      builder: (context, state, child) => AdminShell(child: child),
+      routes: [
+        GoRoute(
+          path: AdminRoutes.dashboard,
+          name: 'admin_dashboard',
+          builder: (context, state) => const AdminDashboard(),
+        ),
+        GoRoute(
+          path: AdminRoutes.books,
+          name: 'admin_books',
+          builder: (context, state) => const BookManagement(),
+        ),
+        GoRoute(
+          path: AdminRoutes.orders,
+          name: 'admin_orders',
+          builder: (context, state) => const OrderManagement(),
+        ),
+        GoRoute(
+          path: AdminRoutes.users,
+          name: 'admin_users',
+          builder: (context, state) => const Scaffold(
+            body: Center(
+              child: Text('Quản lý người dùng - Đang phát triển'),
+            ),
+          ),
+        ),
+        GoRoute(
+          path: AdminRoutes.categories,
+          name: 'admin_categories',
+          builder: (context, state) => const Scaffold(
+            body: Center(
+              child: Text('Quản lý danh mục - Đang phát triển'),
+            ),
+          ),
+        ),
+        GoRoute(
+          path: AdminRoutes.revenue,
+          name: 'admin_revenue',
+          builder: (context, state) => const Scaffold(
+            body: Center(
+              child: Text('Thống kê doanh thu - Đang phát triển'),
+            ),
+          ),
+        ),
+        GoRoute(
+          path: AdminRoutes.promotions,
+          name: 'admin_promotions',
+          builder: (context, state) => const Scaffold(
+            body: Center(
+              child: Text('Quản lý khuyến mãi - Đang phát triển'),
+            ),
+          ),
         ),
       ],
     ),

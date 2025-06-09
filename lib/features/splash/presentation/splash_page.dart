@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bookstore/core/constants/app_colors.dart';
 import 'package:bookstore/core/navigation/routes.dart';
+import 'package:bookstore/core/navigation/admin_routes.dart';
 import 'package:go_router/go_router.dart';
 
 class SplashPage extends StatefulWidget {
@@ -40,8 +41,8 @@ class _SplashPageState extends State<SplashPage>
     // Chuyển hướng sau 2 giây
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
-        // Thử cách chuyển hướng khác
-        context.go('/home');
+        // Chuyển đến trang admin dashboard
+        context.go('/login');
       }
     });
   }

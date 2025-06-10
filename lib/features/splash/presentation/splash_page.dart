@@ -1,3 +1,4 @@
+import 'package:bookstore/core/navigation/admin_router.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstore/core/constants/app_colors.dart';
 import 'package:bookstore/core/navigation/routes.dart';
@@ -42,7 +43,8 @@ class _SplashPageState extends State<SplashPage>
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
         // Chuyển đến trang admin dashboard
-        context.go('/login');
+        context.go('/home');
+        //context.go(AdminRoutes.dashboard);
       }
     });
   }

@@ -7,8 +7,6 @@ import 'package:bookstore/features/auth/presentation/pages/register_page.dart';
 import 'package:bookstore/features/splash/presentation/splash_page.dart';
 import 'package:bookstore/features/cart/presentation/pages/cart_page.dart';
 import 'package:go_router/go_router.dart';
-import 'routes.dart';
-import 'package:bookstore/core/constants/app_colors.dart';
 import 'package:bookstore/features/product/screens/product_detail_screen.dart';
 import 'package:bookstore/features/auth/presentation/pages/account_page.dart';
 import 'package:bookstore/features/auth/presentation/pages/suggestions_page.dart';
@@ -147,7 +145,8 @@ final GoRouter router = GoRouter(
           path: '/home/product-detail',
           name: 'product_detail',
           builder: (context, state) {
-            final Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+            final Map<String, dynamic> args =
+                state.extra as Map<String, dynamic>;
             final String image = args['image'] as String;
             final String title = args['title'] as String;
             return ProductDetailScreen(image: image, title: title);

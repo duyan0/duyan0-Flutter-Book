@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:carousel_slider/carousel_slider.dart';
 
 class CarouselBanner extends StatelessWidget {
@@ -37,4 +38,14 @@ class CarouselBanner extends StatelessWidget {
       }).toList(),
     );
   }
-} 
+
+  CarouselOptions(
+      {required double height,
+      required bool autoPlay,
+      required bool enlargeCenterPage,
+      required double aspectRatio,
+      required Duration autoPlayInterval,
+      required double viewportFraction}) {}
+
+  // ignore: non_constant_identifier_names
+}

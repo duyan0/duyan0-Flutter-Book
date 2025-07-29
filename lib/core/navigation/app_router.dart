@@ -7,14 +7,10 @@ import 'package:bookstore/features/auth/presentation/pages/register_page.dart';
 import 'package:bookstore/features/splash/presentation/splash_page.dart';
 import 'package:bookstore/features/cart/presentation/pages/cart_page.dart';
 import 'package:go_router/go_router.dart';
-import 'routes.dart';
-import 'package:bookstore/core/constants/app_colors.dart';
 import 'package:bookstore/features/product/screens/product_detail_screen.dart';
 import 'package:bookstore/features/auth/presentation/pages/account_page.dart';
 import 'package:bookstore/features/auth/presentation/pages/suggestions_page.dart';
 import 'package:bookstore/features/auth/presentation/pages/notifications_page.dart';
-import 'package:bookstore/features/auth/presentation/pages/otp_verification_page.dart';
-import 'package:bookstore/models/khach_hang.dart';
 
 // HomeShell widget for fixed bottom navigation
 class HomeShell extends StatefulWidget {
@@ -144,9 +140,11 @@ final GoRouter router = GoRouter(
           path: '/home/product-detail',
           name: 'product_detail',
           builder: (context, state) {
-            final Map<String, dynamic> args = state.extra as Map<String, dynamic>;
-            final int productId = args['productId'] as int;
-            return ProductDetailScreen(productId: productId);
+            final Map<String, dynamic> args =
+                state.extra as Map<String, dynamic>;
+            final String image = args['image'] as String;
+            final String title = args['title'] as String;
+            return ProductDetailScreen(image: image, title: title);
           },
         ),
         GoRoute(
@@ -170,17 +168,6 @@ final GoRouter router = GoRouter(
           builder: (context, state) => const CartPage(),
         ),
       ],
-    ),
-    GoRoute(
-      path: '/otp-verification',
-      name: 'otp_verification',
-      builder: (context, state) {
-        final khachHang = state.extra as KhachHang?;
-        if (khachHang == null) {
-          return const RegisterPage();
-        }
-        return OtpVerificationPage(khachHang: khachHang);
-      },
     ),
   ],
 );

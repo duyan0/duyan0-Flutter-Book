@@ -1,5 +1,4 @@
 // ignore_for_file: file_names
-import 'order.dart';
 
 class DanhGiaSanPham {
   final int? id;
@@ -68,6 +67,10 @@ class KhachHang {
     this.matKhau,
   });
 
+  // Getter aliases for backward compatibility with tests
+  int? get khachHangId => maKhachHang;
+  String? get soDT => soDienThoai;
+
   factory KhachHang.fromJson(Map<String, dynamic> json) {
     return KhachHang(
       maKhachHang: json['maKhachHang'],
@@ -76,9 +79,11 @@ class KhachHang {
       taiKhoan: json['taiKhoan'] ?? '',
       soDienThoai: json['soDienThoai'] ?? '',
       diaChi: json['diaChi'],
-      ngaySinh: json['ngaySinh'] != null ? DateTime.tryParse(json['ngaySinh']) : null,
+      ngaySinh:
+          json['ngaySinh'] != null ? DateTime.tryParse(json['ngaySinh']) : null,
       gioiTinh: json['gioiTinh'],
-      ngayTao: json['ngayTao'] != null ? DateTime.tryParse(json['ngayTao']) : null,
+      ngayTao:
+          json['ngayTao'] != null ? DateTime.tryParse(json['ngayTao']) : null,
       trangThai: json['trangThai'] ?? true,
     );
   }
@@ -115,9 +120,6 @@ class KhachHang {
 
   // Tạo object cho đăng nhập
   Map<String, dynamic> toLoginJson() {
-    return {
-      'taiKhoan': taiKhoan,
-      'matKhau': matKhau,
-    };
+    return {'taiKhoan': taiKhoan, 'matKhau': matKhau};
   }
 }

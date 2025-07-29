@@ -17,8 +17,10 @@ class OrderService {
   }) async {
     try {
       print('🛒 Đang tạo đơn hàng cho khách hàng: $maKhachHang, $tenKhachHang');
-      print('📦 Chi tiết đơn hàng: ${chiTietDonHang.length} sản phẩm, tổng tiền: $tongTien');
-      
+      print(
+        '📦 Chi tiết đơn hàng: ${chiTietDonHang.length} sản phẩm, tổng tiền: $tongTien',
+      );
+
       final body = jsonEncode({
         'maKhachHang': maKhachHang,
         'tenKhachHang': tenKhachHang,
@@ -28,19 +30,19 @@ class OrderService {
         'ghiChu': ghiChu,
         'chiTietDonHang': chiTietDonHang,
       });
-      
+
       print('📤 Gửi request đến: $baseUrl');
       print('📄 Body: $body');
-      
+
       final response = await http.post(
         Uri.parse(baseUrl),
         headers: {'Content-Type': 'application/json'},
         body: body,
       );
-      
+
       print('📥 Response status: ${response.statusCode}');
       print('📥 Response body: ${response.body}');
-      
+
       if (response.statusCode == 200 || response.statusCode == 201) {
         print('✅ Đặt hàng thành công!');
         return true;
@@ -58,34 +60,35 @@ class OrderService {
   static Future<List<Order>> getOrdersByCustomerId(int maKhachHang) async {
     try {
       print('🔍 Đang lấy đơn hàng của khách hàng: $maKhachHang');
-      
+
       // Thử endpoint theo khách hàng trước
-      final String endpoint = 'http://10.0.2.2:5070/api/donhang/khachhang/$maKhachHang';
+      final String endpoint =
+          'http://10.0.2.2:5070/api/donhang/khachhang/$maKhachHang';
       print('🔗 Endpoint khách hàng: $endpoint');
-      
+
       final response = await http.get(
         Uri.parse(endpoint),
         headers: {'Content-Type': 'application/json'},
       );
-      
+
       print('📥 Response status: ${response.statusCode}');
-      
+
       if (response.statusCode == 200) {
         print('✅ API trả về thành công');
         final data = json.decode(response.body);
-        
+
         // Xử lý dữ liệu trả về
         return _parseOrdersResponse(data, maKhachHang);
       } else {
         print('❌ API trả về lỗi: ${response.statusCode}');
-        
+
         // Thử phương pháp lấy tất cả đơn hàng và lọc
         print('🔄 Thử phương pháp lấy tất cả đơn hàng và lọc');
         return await getAllOrdersAndFilter(maKhachHang);
       }
     } catch (e) {
       print('💥 Lỗi khi lấy đơn hàng theo khách hàng: $e');
-      
+
       // Thử phương pháp lấy tất cả đơn hàng và lọc
       print('🔄 Thử phương pháp lấy tất cả đơn hàng và lọc sau khi gặp lỗi');
       return await getAllOrdersAndFilter(maKhachHang);
@@ -96,63 +99,75 @@ class OrderService {
   static Future<List<Order>> getAllOrdersAndFilter(int maKhachHang) async {
     try {
       print('🔍 Lấy tất cả đơn hàng và lọc theo khách hàng: $maKhachHang');
-      
+
       final response = await http.get(
         Uri.parse(baseUrl),
         headers: {'Content-Type': 'application/json'},
       );
-      
+
       print('📥 Response status: ${response.statusCode}');
-      
+
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         print('📦 Parsed all orders data structure: ${data.runtimeType}');
-        
+
         List<Order> allOrders = [];
-        
+
         // Xử lý cấu trúc response theo apidonhang.txt
         if (data['success'] == true && data['data'] != null) {
           print('✅ API trả về thành công, kiểm tra cấu trúc data');
-          
+
           // Cấu trúc theo apidonhang.txt
-          if (data['data'] is Map && data['data']['items'] != null && 
+          if (data['data'] is Map &&
+              data['data']['items'] != null &&
               data['data']['items']['\$values'] != null) {
             print('📋 Data có cấu trúc items.\$values, xử lý...');
             final List ordersJson = data['data']['items']['\$values'] as List;
             allOrders = ordersJson.map((json) => Order.fromJson(json)).toList();
-            print('📋 Đã parse được ${allOrders.length} đơn hàng từ items.\$values');
+            print(
+              '📋 Đã parse được ${allOrders.length} đơn hàng từ items.\$values',
+            );
           }
           // Cấu trúc khác
           else if (data['data'] is List) {
             print('📋 Data là List, số lượng: ${data['data'].length}');
             final List ordersJson = data['data'] as List;
             allOrders = ordersJson.map((json) => Order.fromJson(json)).toList();
-          } 
-          else if (data['data'] is Map && data['data']['\$values'] != null) {
-            print('📋 Data có cấu trúc \$values, số lượng: ${data['data']['\$values'].length}');
+          } else if (data['data'] is Map && data['data']['\$values'] != null) {
+            print(
+              '📋 Data có cấu trúc \$values, số lượng: ${data['data']['\$values'].length}',
+            );
             final List ordersJson = data['data']['\$values'] as List;
             allOrders = ordersJson.map((json) => Order.fromJson(json)).toList();
-          }
-          else if (data['data'] is Map) {
+          } else if (data['data'] is Map) {
             print('📋 Data là một đơn hàng đơn lẻ');
             final order = Order.fromJson(data['data']);
             allOrders = [order];
           }
         }
-        
+
         // Lọc theo khách hàng
-        final filteredOrders = allOrders.where((order) => order.maKhachHang == maKhachHang).toList();
-        print('📋 Tìm thấy ${filteredOrders.length} đơn hàng của khách hàng $maKhachHang');
-        
+        final filteredOrders =
+            allOrders
+                .where((order) => order.maKhachHang == maKhachHang)
+                .toList();
+        print(
+          '📋 Tìm thấy ${filteredOrders.length} đơn hàng của khách hàng $maKhachHang',
+        );
+
         // In thông tin đơn hàng để debug
         for (int i = 0; i < filteredOrders.length; i++) {
           final order = filteredOrders[i];
-          print('🧾 Đơn hàng #$i - ID: ${order.maDonHang}, Khách hàng: ${order.tenKhachHang}');
+          print(
+            '🧾 Đơn hàng #$i - ID: ${order.maDonHang}, Khách hàng: ${order.tenKhachHang}',
+          );
         }
-        
+
         return filteredOrders;
       } else {
-        print('❌ Lấy tất cả đơn hàng thất bại! Status code: ${response.statusCode}');
+        print(
+          '❌ Lấy tất cả đơn hàng thất bại! Status code: ${response.statusCode}',
+        );
         return [];
       }
     } catch (e) {
@@ -165,14 +180,14 @@ class OrderService {
   static Future<List<Order>> getAllOrders() async {
     try {
       print('🔍 Đang lấy tất cả đơn hàng');
-      
+
       final response = await http.get(
         Uri.parse(baseUrl),
         headers: {'Content-Type': 'application/json'},
       );
-      
+
       print('📥 Response status: ${response.statusCode}');
-      
+
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         return _parseOrdersResponse(data, null);
@@ -185,19 +200,23 @@ class OrderService {
       return [];
     }
   }
-  
+
   // Hàm xử lý chung cho response từ API
-  static List<Order> _parseOrdersResponse(dynamic data, int? filterByCustomerId) {
+  static List<Order> _parseOrdersResponse(
+    dynamic data,
+    int? filterByCustomerId,
+  ) {
     print('📦 Parsing orders response: ${data.runtimeType}');
     List<Order> orders = [];
-    
+
     try {
       // Kiểm tra cấu trúc response
       if (data['success'] == true && data['data'] != null) {
         print('✅ API trả về thành công, kiểm tra cấu trúc data');
-        
+
         // Cấu trúc theo apidonhang.txt
-        if (data['data'] is Map && data['data']['items'] != null && 
+        if (data['data'] is Map &&
+            data['data']['items'] != null &&
             data['data']['items']['\$values'] != null) {
           print('📋 Data có cấu trúc items.\$values, xử lý...');
           final List ordersJson = data['data']['items']['\$values'] as List;
@@ -209,25 +228,30 @@ class OrderService {
           print('📋 Data là List, số lượng: ${data['data'].length}');
           final List ordersJson = data['data'] as List;
           orders = ordersJson.map((json) => Order.fromJson(json)).toList();
-        } 
-        else if (data['data'] is Map && data['data']['\$values'] != null) {
-          print('📋 Data có cấu trúc \$values, số lượng: ${data['data']['\$values'].length}');
+        } else if (data['data'] is Map && data['data']['\$values'] != null) {
+          print(
+            '📋 Data có cấu trúc \$values, số lượng: ${data['data']['\$values'].length}',
+          );
           final List ordersJson = data['data']['\$values'] as List;
           orders = ordersJson.map((json) => Order.fromJson(json)).toList();
-        }
-        else if (data['data'] is Map) {
+        } else if (data['data'] is Map) {
           print('📋 Data là một đơn hàng đơn lẻ');
           final order = Order.fromJson(data['data']);
           orders = [order];
         }
       }
-      
+
       // Lọc theo khách hàng nếu cần
       if (filterByCustomerId != null) {
-        orders = orders.where((order) => order.maKhachHang == filterByCustomerId).toList();
-        print('🔍 Đã lọc: ${orders.length} đơn hàng của khách hàng $filterByCustomerId');
+        orders =
+            orders
+                .where((order) => order.maKhachHang == filterByCustomerId)
+                .toList();
+        print(
+          '🔍 Đã lọc: ${orders.length} đơn hàng của khách hàng $filterByCustomerId',
+        );
       }
-      
+
       print('📋 Số lượng đơn hàng tìm thấy: ${orders.length}');
       if (orders.isNotEmpty) {
         print('🧾 Mẫu đơn hàng đầu tiên: ${orders.first.maDonHang}');
@@ -235,7 +259,49 @@ class OrderService {
     } catch (e) {
       print('💥 Lỗi khi parse orders response: $e');
     }
-    
+
     return orders;
   }
-} 
+
+  // Check if user can view order
+  static bool canViewOrder(int orderId, int userId) {
+    // For now, allow all users to view their own orders
+    // In production, add proper authorization logic
+    return true;
+  }
+
+  // Check if user can edit order
+  static bool canEditOrder(int orderId, int userId) {
+    // For now, allow editing only for pending orders
+    // In production, add proper authorization and status checks
+    return true;
+  }
+
+  // Get current user's orders
+  static Future<List<Order>> getCurrentUserOrders(int userId) async {
+    try {
+      print('📋 Lấy đơn hàng của user: $userId');
+
+      final response = await http.get(
+        Uri.parse('$baseUrl/user/$userId'),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      print('📋 Response status: ${response.statusCode}');
+      print('📋 Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data['success'] == true) {
+          final List<dynamic> ordersJson = data['data'] ?? [];
+          return ordersJson.map((json) => Order.fromJson(json)).toList();
+        }
+      }
+
+      return [];
+    } catch (e) {
+      print('💥 Lỗi khi lấy đơn hàng của user: $e');
+      return [];
+    }
+  }
+}

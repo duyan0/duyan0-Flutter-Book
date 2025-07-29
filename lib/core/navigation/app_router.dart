@@ -142,9 +142,8 @@ final GoRouter router = GoRouter(
           builder: (context, state) {
             final Map<String, dynamic> args =
                 state.extra as Map<String, dynamic>;
-            final String image = args['image'] as String;
-            final String title = args['title'] as String;
-            return ProductDetailScreen(image: image, title: title);
+            final int productId = args['productId'] as int;
+            return ProductDetailScreen(productId: productId);
           },
         ),
         GoRoute(

@@ -25,6 +25,12 @@ class User {
     this.trangThai,
   });
 
+  // Getter aliases for backward compatibility
+  String? get tenKH => tenKhachHang;
+  String? get tKhoan => taiKhoan;
+  int? get iDkh => maKhachHang;
+  String get trangThaiTaiKhoan => (trangThai == true) ? 'Active' : 'Inactive';
+
   User.fromJson(Map<String, dynamic> json) {
     try {
       print('Parsing User from JSON: $json');

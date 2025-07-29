@@ -36,7 +36,9 @@ class _CategoryListPageState extends State<CategoryListPage> {
       if (result['success'] && result['data'] != null) {
         final data = result['data'];
         List categories = [];
-        if (data['\$values'] != null) {
+        if (data is List) {
+          categories = data;
+        } else if (data is Map && data['\$values'] != null) {
           categories = data['\$values'];
         }
         _totalCategories = categories.length;
@@ -51,7 +53,10 @@ class _CategoryListPageState extends State<CategoryListPage> {
           _isLoading = false;
         });
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Lỗi: ${result['message']}'), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text('Lỗi: ${result['message']}'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     } catch (e) {
@@ -72,7 +77,10 @@ class _CategoryListPageState extends State<CategoryListPage> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 16.0,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -94,36 +102,64 @@ class _CategoryListPageState extends State<CategoryListPage> {
             ),
           ),
           Expanded(
-            child: _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : _categories.isEmpty
+            child:
+                _isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : _categories.isEmpty
                     ? const Center(child: Text('Không có danh mục nào'))
                     : Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Card(
-                          elevation: 2,
-                          child: ListView(
-                            children: [
-                              Container(
-                                color: Colors.grey[100],
-                                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                                child: Row(
-                                  children: const [
-                                    SizedBox(width: 50, child: Text('ID', style: TextStyle(fontWeight: FontWeight.bold))),
-                                    SizedBox(width: 16),
-                                    Expanded(flex: 2, child: Text('Tên danh mục', style: TextStyle(fontWeight: FontWeight.bold))),
-                                    SizedBox(width: 120, child: Text('Thao tác', style: TextStyle(fontWeight: FontWeight.bold))),
-                                  ],
-                                ),
+                      padding: const EdgeInsets.all(16.0),
+                      child: Card(
+                        elevation: 2,
+                        child: ListView(
+                          children: [
+                            Container(
+                              color: Colors.grey[100],
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 12,
+                                horizontal: 16,
                               ),
-                              ...List.generate(
-                                _categories.length,
-                                (index) => _buildCategoryRow(_categories[index]),
+                              child: Row(
+                                children: const [
+                                  SizedBox(
+                                    width: 50,
+                                    child: Text(
+                                      'ID',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 16),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Text(
+                                      'Tên danh mục',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 120,
+                                    child: Text(
+                                      'Thao tác',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                            ...List.generate(
+                              _categories.length,
+                              (index) => _buildCategoryRow(_categories[index]),
+                            ),
+                          ],
                         ),
                       ),
+                    ),
           ),
         ],
       ),
@@ -141,7 +177,14 @@ class _CategoryListPageState extends State<CategoryListPage> {
           children: [
             SizedBox(width: 50, child: Text('${category['id']}')),
             const SizedBox(width: 16),
-            Expanded(flex: 2, child: Text(category['name'] ?? '', maxLines: 1, overflow: TextOverflow.ellipsis)),
+            Expanded(
+              flex: 2,
+              child: Text(
+                category['name'] ?? '',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
             SizedBox(
               width: 120,
               child: Row(
@@ -171,4 +214,4 @@ class _CategoryListPageState extends State<CategoryListPage> {
       ),
     );
   }
-} 
+}

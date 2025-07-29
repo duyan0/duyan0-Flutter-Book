@@ -5,52 +5,13 @@ import 'package:bookstore/features/product/screens/product_detail_screen.dart';
 
 void main() {
   group('Product Detail Screen Tests', () {
-    testWidgets('should display product details without product ID', (WidgetTester tester) async {
-      final product = Product(
-        productId: 1,
-        title: 'Test Book',
-        description: 'This is a test book description that should be displayed in the detail screen.',
-        price: 150000.0,
-        image: '/images/test.jpg',
-        quantity: 10,
-        status: 'Còn hàng',
-        isbn: '1234567890123',
-        pageCount: 200,
-        language: 'Tiếng Việt',
-        publicationDate: DateTime(2024, 1, 1),
-        category: Category(
-          id: 'cat-id',
-          categoryId: 1,
-          name: 'Văn học',
-        ),
-        author: Author(
-          id: 'author-id',
-          authorId: 1,
-          name: 'Test Author',
-          country: 'Việt Nam',
-          bio: 'Test author biography',
-        ),
-        publisher: Publisher(
-          id: 'pub-id',
-          publisherId: 1,
-          name: 'Test Publisher',
-          address: 'Test Address',
-          phone: '0123456789',
-          email: 'test@publisher.com',
-        ),
-        promotion: Promotion(
-          id: 'promo-id',
-          promotionId: 1,
-          name: 'Test Promotion',
-          discount: 15.0,
-          description: 'Test promotion description',
-        ),
-      );
+    testWidgets('should display product details without product ID', (
+      WidgetTester tester,
+    ) async {
+      // Test with productId 1
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: ProductDetailScreen(product: product),
-        ),
+        MaterialApp(home: ProductDetailScreen(productId: 1)),
       );
 
       // Verify that product ID is not displayed
@@ -60,7 +21,12 @@ void main() {
 
       // Verify that other product details are displayed
       expect(find.text('Test Book'), findsOneWidget);
-      expect(find.text('This is a test book description that should be displayed in the detail screen.'), findsOneWidget);
+      expect(
+        find.text(
+          'This is a test book description that should be displayed in the detail screen.',
+        ),
+        findsOneWidget,
+      );
       expect(find.text('150.000 đ'), findsOneWidget);
       expect(find.text('127.500 đ'), findsOneWidget); // Discounted price
       expect(find.text('15%'), findsOneWidget); // Discount percentage
@@ -77,12 +43,20 @@ void main() {
       expect(find.text('Test Publisher'), findsOneWidget); // Publisher
       expect(find.text('Test Address'), findsOneWidget); // Publisher address
       expect(find.text('0123456789'), findsOneWidget); // Publisher phone
-      expect(find.text('test@publisher.com'), findsOneWidget); // Publisher email
+      expect(
+        find.text('test@publisher.com'),
+        findsOneWidget,
+      ); // Publisher email
       expect(find.text('Test Promotion'), findsOneWidget); // Promotion name
-      expect(find.text('Test promotion description'), findsOneWidget); // Promotion description
+      expect(
+        find.text('Test promotion description'),
+        findsOneWidget,
+      ); // Promotion description
     });
 
-    testWidgets('should display product without promotion', (WidgetTester tester) async {
+    testWidgets('should display product without promotion', (
+      WidgetTester tester,
+    ) async {
       final product = Product(
         productId: 2,
         title: 'Regular Book',
@@ -95,11 +69,7 @@ void main() {
         pageCount: 150,
         language: 'Tiếng Anh',
         publicationDate: DateTime(2023, 6, 15),
-        category: Category(
-          id: 'cat-id-2',
-          categoryId: 2,
-          name: 'Kinh tế',
-        ),
+        category: Category(id: 'cat-id-2', categoryId: 2, name: 'Kinh tế'),
         author: Author(
           id: 'author-id-2',
           authorId: 2,
@@ -118,7 +88,7 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          home: ProductDetailScreen(product: product),
+          home: ProductDetailScreen(productId: product.productId ?? 1),
         ),
       );
 
@@ -142,7 +112,10 @@ void main() {
       expect(find.text('Regular Publisher'), findsOneWidget); // Publisher
       expect(find.text('Regular Address'), findsOneWidget); // Publisher address
       expect(find.text('0987654321'), findsOneWidget); // Publisher phone
-      expect(find.text('regular@publisher.com'), findsOneWidget); // Publisher email
+      expect(
+        find.text('regular@publisher.com'),
+        findsOneWidget,
+      ); // Publisher email
 
       // Verify that promotion-related elements are not displayed
       expect(find.text('Test Promotion'), findsNothing);
@@ -150,7 +123,9 @@ void main() {
       expect(find.text('127.500 đ'), findsNothing);
     });
 
-    testWidgets('should display product with missing optional fields', (WidgetTester tester) async {
+    testWidgets('should display product with missing optional fields', (
+      WidgetTester tester,
+    ) async {
       final product = Product(
         productId: 3,
         title: 'Minimal Book',
@@ -163,7 +138,7 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          home: ProductDetailScreen(product: product),
+          home: ProductDetailScreen(productId: product.productId ?? 1),
         ),
       );
 
@@ -188,7 +163,9 @@ void main() {
       expect(find.text('Nhà xuất bản:'), findsOneWidget);
     });
 
-    testWidgets('should display out of stock product correctly', (WidgetTester tester) async {
+    testWidgets('should display out of stock product correctly', (
+      WidgetTester tester,
+    ) async {
       final product = Product(
         productId: 4,
         title: 'Out of Stock Book',
@@ -201,7 +178,7 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          home: ProductDetailScreen(product: product),
+          home: ProductDetailScreen(productId: product.productId ?? 1),
         ),
       );
 
@@ -217,7 +194,9 @@ void main() {
       expect(find.text('0'), findsOneWidget); // Quantity
     });
 
-    testWidgets('should handle null values gracefully', (WidgetTester tester) async {
+    testWidgets('should handle null values gracefully', (
+      WidgetTester tester,
+    ) async {
       final product = Product(
         productId: 5,
         title: 'Null Book',
@@ -238,7 +217,7 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          home: ProductDetailScreen(product: product),
+          home: ProductDetailScreen(productId: product.productId ?? 1),
         ),
       );
 
@@ -263,4 +242,4 @@ void main() {
       expect(find.text('Nhà xuất bản:'), findsOneWidget);
     });
   });
-} 
+}

@@ -4,9 +4,25 @@ import 'package:bookstore/features/auth/presentation/widgets/home_banner.dart';
 import 'package:bookstore/features/auth/presentation/widgets/home_menu_grid.dart';
 import 'package:bookstore/features/auth/presentation/widgets/flash_sale_section.dart';
 import 'package:bookstore/features/auth/presentation/widgets/book_tab_view_section.dart';
+import 'package:bookstore/features/auth/presentation/widgets/home_search_bar.dart';
+import 'package:bookstore/features/product/screens/product_list_screen.dart';
+import 'package:bookstore/features/product/screens/product_search_screen.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +33,18 @@ class HomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Thêm thanh tìm kiếm
+            HomeSearchBar(
+              controller: _searchController,
+              onSearch: (query) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProductSearchScreen(initialQuery: query),
+                  ),
+                );
+              },
+            ),
             const HomeBanner(),
             const SizedBox(height: 8),
             const HomeMenuGrid(),
@@ -41,10 +69,10 @@ class HomePage extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Xem thêm sách'),
-                      duration: Duration(seconds: 1),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProductListScreen(),
                     ),
                   );
                 },
@@ -57,7 +85,7 @@ class HomePage extends StatelessWidget {
                   ),
                   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
                 ),
-                child: const Text('Xem thêm', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                child: const Text('Xem tất cả sản phẩm', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               ),
             ),
             const SizedBox(height: 16),

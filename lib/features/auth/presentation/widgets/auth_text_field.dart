@@ -7,7 +7,8 @@ class AuthTextField extends StatefulWidget {
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final IconData? prefixIcon;
-  final TextInputType? keyboardType; // Thêm keyboardType
+  final Widget? suffixIcon;
+  final TextInputType? keyboardType;
 
   const AuthTextField({
     required this.label,
@@ -15,7 +16,8 @@ class AuthTextField extends StatefulWidget {
     this.controller,
     this.validator,
     this.prefixIcon,
-    this.keyboardType, // Thêm vào constructor
+    this.suffixIcon,
+    this.keyboardType,
     super.key,
   });
 
@@ -46,6 +48,30 @@ class _AuthTextFieldState extends State<AuthTextField> {
     super.dispose();
   }
 
+  Widget? _buildSuffixIcon() {
+    // Nếu có suffixIcon tùy chỉnh, sử dụng nó
+    if (widget.suffixIcon != null) {
+      return widget.suffixIcon;
+    }
+    
+    // Nếu là trường mật khẩu và không có suffixIcon tùy chỉnh, hiển thị icon mặc định
+    if (widget.obscureText) {
+      return IconButton(
+        icon: Icon(
+          _isObscure ? Icons.visibility_off : Icons.visibility,
+          color: AppColors.secondaryColor,
+        ),
+        onPressed: () {
+          setState(() {
+            _isObscure = !_isObscure;
+          });
+        },
+      );
+    }
+    
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
@@ -56,7 +82,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
         controller: widget.controller,
         obscureText: _isObscure && widget.obscureText,
         focusNode: _focusNode,
-        keyboardType: widget.keyboardType, // Truyền keyboardType
+        keyboardType: widget.keyboardType,
         decoration: InputDecoration(
           labelText: widget.label,
           labelStyle: TextStyle(
@@ -64,30 +90,13 @@ class _AuthTextFieldState extends State<AuthTextField> {
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),
-          prefixIcon:
-              widget.prefixIcon != null
-                  ? Icon(
-                    widget.prefixIcon,
-                    color:
-                        _isFocused
-                            ? AppColors.primaryColor
-                            : AppColors.textColor,
-                  )
-                  : null,
-          suffixIcon:
-              widget.obscureText
-                  ? IconButton(
-                    icon: Icon(
-                      _isObscure ? Icons.visibility_off : Icons.visibility,
-                      color: AppColors.secondaryColor, // #FFC107
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _isObscure = !_isObscure;
-                      });
-                    },
-                  )
-                  : null,
+          prefixIcon: widget.prefixIcon != null
+              ? Icon(
+                  widget.prefixIcon,
+                  color: _isFocused ? AppColors.primaryColor : AppColors.textColor,
+                )
+              : null,
+          suffixIcon: _buildSuffixIcon(),
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(
@@ -96,7 +105,6 @@ class _AuthTextFieldState extends State<AuthTextField> {
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            // ignore: deprecated_member_use
             borderSide: BorderSide(color: AppColors.textColor.withOpacity(0.2)),
           ),
           focusedBorder: OutlineInputBorder(
@@ -110,7 +118,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
             borderRadius: BorderRadius.circular(12),
             borderSide: const BorderSide(
               color: AppColors.errorColor,
-            ), // #D32F2F
+            ),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),

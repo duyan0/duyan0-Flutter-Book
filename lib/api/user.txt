@@ -1,0 +1,155 @@
+http://localhost:5070/api/KhachHang
+
+{
+    "$id": "1",
+    "success": true,
+    "message": "Lấy danh sách khách hàng thành công",
+    "data": {
+        "$id": "2",
+        "items": {
+            "$id": "3",
+            "$values": [
+                {
+                    "$id": "4",
+                    "maKhachHang": 6,
+                    "tenKhachHang": "",
+                    "email": "",
+                    "taiKhoan": "user1",
+                    "soDienThoai": "",
+                    "diaChi": null,
+                    "ngaySinh": null,
+                    "gioiTinh": null,
+                    "ngayTao": "2025-07-15T00:48:34.45",
+                    "trangThai": true
+                },
+                {
+                    "$id": "5",
+                    "maKhachHang": 17,
+                    "tenKhachHang": "An Duy",
+                    "email": "crandi21112004@gmail.com",
+                    "taiKhoan": "vda0909",
+                    "soDienThoai": "0355079865",
+                    "diaChi": null,
+                    "ngaySinh": null,
+                    "gioiTinh": null,
+                    "ngayTao": "2025-07-15T00:48:34.45",
+                    "trangThai": true
+                },
+                {
+                    "$id": "6",
+                    "maKhachHang": 16,
+                    "tenKhachHang": "Ho Minh Nhat",
+                    "email": "hmn@gmail.com",
+                    "taiKhoan": "hmn",
+                    "soDienThoai": "0987755735",
+                    "diaChi": null,
+                    "ngaySinh": null,
+                    "gioiTinh": null,
+                    "ngayTao": "2025-07-15T00:48:34.45",
+                    "trangThai": true
+                },
+                {
+                    "$id": "7",
+                    "maKhachHang": 3,
+                    "tenKhachHang": "Lê Văn C",
+                    "email": "levanc@email.com",
+                    "taiKhoan": "user3",
+                    "soDienThoai": "0987654323",
+                    "diaChi": "Đà Nẵng",
+                    "ngaySinh": null,
+                    "gioiTinh": null,
+                    "ngayTao": "2025-07-15T00:48:34.45",
+                    "trangThai": true
+                },
+                {
+                    "$id": "8",
+                    "maKhachHang": 1,
+                    "tenKhachHang": "Nguyễn Văn A",
+                    "email": "nguyenvana@email.com",
+                    "taiKhoan": "user1",
+                    "soDienThoai": "0987654321",
+                    "diaChi": "Hà Nội",
+                    "ngaySinh": null,
+                    "gioiTinh": null,
+                    "ngayTao": "2025-07-15T00:48:34.45",
+                    "trangThai": true
+                },
+                {
+                    "$id": "9",
+                    "maKhachHang": 10,
+                    "tenKhachHang": "Như",
+                    "email": "crandi21@gmail.com",
+                    "taiKhoan": "phn",
+                    "soDienThoai": "0848881949",
+                    "diaChi": null,
+                    "ngaySinh": null,
+                    "gioiTinh": null,
+                    "ngayTao": "2025-07-15T00:48:34.45",
+                    "trangThai": true
+                },
+                {
+                    "$id": "10",
+                    "maKhachHang": 2,
+                    "tenKhachHang": "Trần Thị B",
+                    "email": "tranthib@email.com",
+                    "taiKhoan": "user2",
+                    "soDienThoai": "0987654322",
+                    "diaChi": "TP.HCM",
+                    "ngaySinh": null,
+                    "gioiTinh": null,
+                    "ngayTao": "2025-07-15T00:48:34.45",
+                    "trangThai": true
+                },
+                {
+                    "$id": "11",
+                    "maKhachHang": 7,
+                    "tenKhachHang": "Võ Duy Ân",
+                    "email": "nguyenvanan@gmail.com",
+                    "taiKhoan": "nguyenvanan",
+                    "soDienThoai": "0123456789",
+                    "diaChi": "123 Đường ABC, Quận 1, TP.HCM",
+                    "ngaySinh": null,
+                    "gioiTinh": null,
+                    "ngayTao": "2025-07-15T00:48:34.45",
+                    "trangThai": true
+                },
+                {
+                    "$id": "12",
+                    "maKhachHang": 9,
+                    "tenKhachHang": "Võ Duy Ân",
+                    "email": "crandiaaa21@gmail.com",
+                    "taiKhoan": "vda",
+                    "soDienThoai": "0355079864",
+                    "diaChi": null,
+                    "ngaySinh": null,
+                    "gioiTinh": null,
+                    "ngayTao": "2025-07-15T00:48:34.45",
+                    "trangThai": true
+                },
+                {
+                    "$id": "13",
+                    "maKhachHang": 15,
+                    "tenKhachHang": "Vỏ Duy Ân",
+                    "email": "crandi211aaaaa1@gmail.com",
+                    "taiKhoan": "voduyan2104",
+                    "soDienThoai": "0355079888",
+                    "diaChi": null,
+                    "ngaySinh": null,
+                    "gioiTinh": null,
+                    "ngayTao": "2025-07-15T00:48:34.45",
+                    "trangThai": true
+                }
+            ]
+        },
+        "pagination": {
+            "$id": "14",
+            "currentPage": 1,
+            "pageSize": 10,
+            "totalCount": 10,
+            "totalPages": 1,
+            "hasNext": false,
+            "hasPrevious": false
+        }
+    },
+    "pagination": null
+}

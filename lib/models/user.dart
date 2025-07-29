@@ -1,63 +1,67 @@
 // ignore_for_file: file_names
 
 class User {
-  int? iDkh;
-  String? tenKH;
-  String? soDT;
+  int? maKhachHang;
+  String? tenKhachHang;
+  String? soDienThoai;
   String? email;
-  String? tKhoan;
-  String? mKhau;
+  String? taiKhoan;
   String? diaChi;
-  String? trangThaiTaiKhoan;
-  String? otp;
-  String? otpExpiry;
+  String? ngaySinh;
+  String? gioiTinh;
   String? ngayTao;
-  String? ngayCapNhat;
+  bool? trangThai;
 
   User({
-    this.iDkh,
-    this.tenKH,
-    this.soDT,
+    this.maKhachHang,
+    this.tenKhachHang,
+    this.soDienThoai,
     this.email,
-    this.tKhoan,
-    this.mKhau,
+    this.taiKhoan,
     this.diaChi,
-    this.trangThaiTaiKhoan,
-    this.otp,
-    this.otpExpiry,
+    this.ngaySinh,
+    this.gioiTinh,
     this.ngayTao,
-    this.ngayCapNhat,
+    this.trangThai,
   });
 
   User.fromJson(Map<String, dynamic> json) {
-    iDkh = json['iDkh'];
-    tenKH = json['tenKH'];
-    soDT = json['soDT'];
-    email = json['email'];
-    tKhoan = json['tKhoan'];
-    mKhau = json['mKhau'];
-    diaChi = json['diaChi'];
-    trangThaiTaiKhoan = json['trangThaiTaiKhoan'];
-    otp = json['otp'];
-    otpExpiry = json['otpExpiry'];
-    ngayTao = json['ngayTao'];
-    ngayCapNhat = json['ngayCapNhat'];
+    try {
+      print('Parsing User from JSON: $json');
+      maKhachHang = json['maKhachHang'];
+      tenKhachHang = json['tenKhachHang'];
+      soDienThoai = json['soDienThoai'];
+      email = json['email'];
+      taiKhoan = json['taiKhoan'];
+      diaChi = json['diaChi'];
+      ngaySinh = json['ngaySinh'];
+      gioiTinh = json['gioiTinh'];
+      ngayTao = json['ngayTao'];
+      trangThai = json['trangThai'];
+      print('User parsed successfully: $tenKhachHang');
+    } catch (e) {
+      print('Error parsing User: $e');
+      rethrow;
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['iDkh'] = iDkh;
-    data['tenKH'] = tenKH;
-    data['soDT'] = soDT;
+    data['maKhachHang'] = maKhachHang;
+    data['tenKhachHang'] = tenKhachHang;
+    data['soDienThoai'] = soDienThoai;
     data['email'] = email;
-    data['tKhoan'] = tKhoan;
-    data['mKhau'] = mKhau;
+    data['taiKhoan'] = taiKhoan;
     data['diaChi'] = diaChi;
-    data['trangThaiTaiKhoan'] = trangThaiTaiKhoan;
-    data['otp'] = otp;
-    data['otpExpiry'] = otpExpiry;
+    data['ngaySinh'] = ngaySinh;
+    data['gioiTinh'] = gioiTinh;
     data['ngayTao'] = ngayTao;
-    data['ngayCapNhat'] = ngayCapNhat;
+    data['trangThai'] = trangThai;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'User{maKhachHang: $maKhachHang, tenKhachHang: $tenKhachHang, email: $email, taiKhoan: $taiKhoan}';
   }
 }

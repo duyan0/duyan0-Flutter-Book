@@ -1,0 +1,334 @@
+http://localhost:5070/api/SanPham
+
+{
+    "$id": "1",
+    "success": true,
+    "message": "Lấy danh sách sản phẩm thành công",
+    "data": {
+        "$id": "2",
+        "$values": [
+            {
+                "$id": "3",
+                "id": 12,
+                "title": "Sách này hết hàng",
+                "description": "Sách hướng dẫn lập trình C# từ cơ bản đến nâng cao,Sách hướng dẫn lập trình C# từ cơ bản đến nâng cao,Sách hướng dẫn lập trình C# từ cơ bản đến nâng cao,Sách hướng dẫn lập trình C# từ cơ bản đến nâng cao,Sách hướng dẫn lập trình C# từ cơ bản đến nâng cao",
+                "price": 250000.00,
+                "image": "default.jpg",
+                "quantity": 0,
+                "status": "Hết hàng",
+                "publicationDate": "2024-01-15T00:00:00",
+                "isbn": "9781234567892",
+                "pageCount": 450,
+                "language": "Tiếng Việt",
+                "category": {
+                    "$id": "4",
+                    "id": 1,
+                    "name": "Tiểu thuyết"
+                },
+                "author": {
+                    "$id": "5",
+                    "id": 1,
+                    "name": "Nguyễn Du",
+                    "birthday": "1765-01-03T00:00:00",
+                    "country": "Việt Nam",
+                    "bio": "Đại thi hào dân tộc Việt Nam",
+                    "image": "default.jpg"
+                },
+                "publisher": {
+                    "$id": "6",
+                    "id": 1,
+                    "name": "NXB Văn học",
+                    "address": "Hà Nội",
+                    "phone": "0241234567",
+                    "email": "info@nxbvanhoc.com"
+                },
+                "promotion": {
+                    "$id": "7",
+                    "id": 1,
+                    "name": "Không khuyến mãi",
+                    "discount": 0.00,
+                    "startDate": null,
+                    "endDate": null,
+                    "description": "Không có khuyến mãi"
+                }
+            },
+            {
+                "$id": "8",
+                "id": 6,
+                "title": "Sách Test API",
+                "description": "Đây là sách test thử chức năng API.",
+                "price": 120000.00,
+                "image": "default.jpg",
+                "quantity": 9,
+                "status": "Còn hàng",
+                "publicationDate": "2024-07-12T00:00:00",
+                "isbn": "9786040000010",
+                "pageCount": 300,
+                "language": "Tiếng Việt",
+                "category": {
+                    "$id": "9",
+                    "id": 1,
+                    "name": "Tiểu thuyết"
+                },
+                "author": {
+                    "$id": "10",
+                    "id": 1,
+                    "name": "Nguyễn Du",
+                    "birthday": "1765-01-03T00:00:00",
+                    "country": "Việt Nam",
+                    "bio": "Đại thi hào dân tộc Việt Nam",
+                    "image": "default.jpg"
+                },
+                "publisher": {
+                    "$id": "11",
+                    "id": 1,
+                    "name": "NXB Văn học",
+                    "address": "Hà Nội",
+                    "phone": "0241234567",
+                    "email": "info@nxbvanhoc.com"
+                },
+                "promotion": {
+                    "$id": "12",
+                    "id": 1,
+                    "name": "Không khuyến mãi",
+                    "discount": 0.00,
+                    "startDate": null,
+                    "endDate": null,
+                    "description": "Không có khuyến mãi"
+                }
+            },
+            {
+                "$id": "13",
+                "id": 5,
+                "title": "Lược sử thời gian",
+                "description": "Sách về vũ trụ học",
+                "price": 250000.00,
+                "image": "default.jpg",
+                "quantity": 19,
+                "status": "Còn hàng",
+                "publicationDate": "2020-05-01T00:00:00",
+                "isbn": "9786040000005",
+                "pageCount": 400,
+                "language": "Tiếng Anh",
+                "category": {
+                    "$id": "14",
+                    "id": 6,
+                    "name": "Vật lý"
+                },
+                "author": {
+                    "$id": "15",
+                    "id": 5,
+                    "name": "Stephen Hawking",
+                    "birthday": "1942-01-08T00:00:00",
+                    "country": "Anh",
+                    "bio": "Nhà vật lý lý thuyết nổi tiếng",
+                    "image": "default.jpg"
+                },
+                "publisher": {
+                    "$id": "16",
+                    "id": 4,
+                    "name": "NXB Tổng hợp",
+                    "address": "TP.HCM",
+                    "phone": "0281234568",
+                    "email": "info@nxbtonghop.com"
+                },
+                "promotion": {
+                    "$id": "17",
+                    "id": 1,
+                    "name": "Không khuyến mãi",
+                    "discount": 0.00,
+                    "startDate": null,
+                    "endDate": null,
+                    "description": "Không có khuyến mãi"
+                }
+            },
+            {
+                "$id": "18",
+                "id": 4,
+                "title": "Đắc Nhân Tâm",
+                "description": "Sách về nghệ thuật giao tiếp",
+                "price": 200000.00,
+                "image": "default.jpg",
+                "quantity": 39,
+                "status": "Còn hàng",
+                "publicationDate": "2020-04-01T00:00:00",
+                "isbn": "9786040000004",
+                "pageCount": 350,
+                "language": "Tiếng Việt",
+                "category": {
+                    "$id": "19",
+                    "id": 4,
+                    "name": "Kinh doanh"
+                },
+                "author": {
+                    "$id": "20",
+                    "id": 4,
+                    "name": "Dale Carnegie",
+                    "birthday": "1888-11-24T00:00:00",
+                    "country": "Hoa Kỳ",
+                    "bio": "Chuyên gia về nghệ thuật giao tiếp",
+                    "image": "default.jpg"
+                },
+                "publisher": {
+                    "$id": "21",
+                    "id": 3,
+                    "name": "NXB Trẻ",
+                    "address": "TP.HCM",
+                    "phone": "0281234567",
+                    "email": "info@nxbtre.com"
+                },
+                "promotion": {
+                    "$id": "22",
+                    "id": 3,
+                    "name": "Giảm giá 20%",
+                    "discount": 20.00,
+                    "startDate": "2024-06-01T00:00:00",
+                    "endDate": "2024-08-31T00:00:00",
+                    "description": "Giảm giá 20% cho sách văn học"
+                }
+            },
+            {
+                "$id": "23",
+                "id": 3,
+                "title": "Thơ Xuân Quỳnh",
+                "description": "Tuyển tập thơ của Xuân Quỳnh",
+                "price": 120000.00,
+                "image": "default.jpg",
+                "quantity": 24,
+                "status": "Còn hàng",
+                "publicationDate": "2020-03-01T00:00:00",
+                "isbn": "9786040000003",
+                "pageCount": 200,
+                "language": "Tiếng Việt",
+                "category": {
+                    "$id": "24",
+                    "id": 3,
+                    "name": "Thơ"
+                },
+                "author": {
+                    "$id": "25",
+                    "id": 3,
+                    "name": "Xuân Quỳnh",
+                    "birthday": "1942-10-06T00:00:00",
+                    "country": "Việt Nam",
+                    "bio": "Nhà thơ nữ tiêu biểu",
+                    "image": "default.jpg"
+                },
+                "publisher": {
+                    "$id": "26",
+                    "id": 1,
+                    "name": "NXB Văn học",
+                    "address": "Hà Nội",
+                    "phone": "0241234567",
+                    "email": "info@nxbvanhoc.com"
+                },
+                "promotion": {
+                    "$id": "27",
+                    "id": 1,
+                    "name": "Không khuyến mãi",
+                    "discount": 0.00,
+                    "startDate": null,
+                    "endDate": null,
+                    "description": "Không có khuyến mãi"
+                }
+            },
+            {
+                "$id": "28",
+                "id": 2,
+                "title": "Chí Phèo",
+                "description": "Truyện ngắn nổi tiếng của Nam Cao",
+                "price": 80000.00,
+                "image": "uploads/0ed2ececf271dad5a0afbe37a8f31a4e.jpg",
+                "quantity": 9,
+                "status": "Còn hàng",
+                "publicationDate": "2020-02-01T00:00:00",
+                "isbn": "9786040000002",
+                "pageCount": 150,
+                "language": "Tiếng Việt",
+                "category": {
+                    "$id": "29",
+                    "id": 2,
+                    "name": "Truyện ngắn"
+                },
+                "author": {
+                    "$id": "30",
+                    "id": 2,
+                    "name": "Nam Cao",
+                    "birthday": "1915-10-29T00:00:00",
+                    "country": "Việt Nam",
+                    "bio": "Nhà văn hiện thực xuất sắc",
+                    "image": "default.jpg"
+                },
+                "publisher": {
+                    "$id": "31",
+                    "id": 1,
+                    "name": "NXB Văn học",
+                    "address": "Hà Nội",
+                    "phone": "0241234567",
+                    "email": "info@nxbvanhoc.com"
+                },
+                "promotion": {
+                    "$id": "32",
+                    "id": 2,
+                    "name": "Giảm giá 10%",
+                    "discount": 10.00,
+                    "startDate": "2024-01-01T00:00:00",
+                    "endDate": "2024-12-31T00:00:00",
+                    "description": "Giảm giá 10% cho tất cả sách"
+                }
+            },
+            {
+                "$id": "33",
+                "id": 1,
+                "title": "Truyện Kiều",
+                "description": "Tác phẩm văn học kinh điển của Việt Nam",
+                "price": 150000.00,
+                "image": "uploads/9c53a22b07a4646c503ff5225472c11a.jpg",
+                "quantity": 31,
+                "status": "Còn hàng",
+                "publicationDate": "2020-01-01T00:00:00",
+                "isbn": "9786040000001",
+                "pageCount": 300,
+                "language": "Tiếng Việt",
+                "category": {
+                    "$id": "34",
+                    "id": 1,
+                    "name": "Tiểu thuyết"
+                },
+                "author": {
+                    "$id": "35",
+                    "id": 1,
+                    "name": "Nguyễn Du",
+                    "birthday": "1765-01-03T00:00:00",
+                    "country": "Việt Nam",
+                    "bio": "Đại thi hào dân tộc Việt Nam",
+                    "image": "default.jpg"
+                },
+                "publisher": {
+                    "$id": "36",
+                    "id": 1,
+                    "name": "NXB Văn học",
+                    "address": "Hà Nội",
+                    "phone": "0241234567",
+                    "email": "info@nxbvanhoc.com"
+                },
+                "promotion": {
+                    "$id": "37",
+                    "id": 1,
+                    "name": "Không khuyến mãi",
+                    "discount": 0.00,
+                    "startDate": null,
+                    "endDate": null,
+                    "description": "Không có khuyến mãi"
+                }
+            }
+        ]
+    },
+    "pagination": {
+        "$id": "38",
+        "page": 1,
+        "limit": 10,
+        "total": 7,
+        "totalPages": 1
+    }
+}

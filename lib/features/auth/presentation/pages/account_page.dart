@@ -1,10 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:bookstore/services/auth_service.dart';
+import 'package:bookstore/core/navigation/routes.dart';
+import 'package:go_router/go_router.dart';
+import 'package:bookstore/features/auth/presentation/pages/order_history_page.dart';
 
-class AccountPage extends StatelessWidget {
+class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
 
   @override
+  State<AccountPage> createState() => _AccountPageState();
+}
+
+class _AccountPageState extends State<AccountPage> {
+  late AuthService authService;
+
+  @override
+  void initState() {
+    super.initState();
+    authService = AuthService();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _debugUserInfo();
+    });
+  }
+
+  void _debugUserInfo() {
+    print('🔍 === DEBUG ACCOUNT PAGE ===');
+    print('👤 Current User: ${authService.currentUser}');
+    print('🔐 Is Logged In: ${authService.isLoggedIn}');
+    print('👑 Is Admin: ${authService.isAdmin}');
+    print('📝 User Name: ${authService.currentUserName}');
+    print('📱 User Phone: ${authService.currentUserPhone}');
+    print('🆔 User ID: ${authService.currentUserId}');
+    print('🎭 User Role: ${authService.currentUserRole}');
+    print('============================');
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final currentUser = authService.currentUser;
+    final userName = authService.currentUserName;
+    final userPhone = authService.currentUserPhone;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -49,34 +85,55 @@ class AccountPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Võ Duy Ân',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[300],
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: const Text(
-                                  'Thành viên Bạc',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.black87,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  userName.isNotEmpty ? userName : 'Chưa cập nhật tên',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
                                   ),
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 4),
+                                Text(
+                                  userPhone.isNotEmpty ? userPhone : 'Chưa cập nhật số điện thoại',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[300],
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Text(
+                                    authService.isAdmin ? 'Admin' : 'Thành viên Bạc',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.black87,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                // Debug info (chỉ hiển thị trong debug mode)
+                                if (authService.currentUserId != null)
+                                  Text(
+                                    'ID: ${authService.currentUserId} | Role: ${authService.currentUserRole}',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: Colors.grey[500],
+                                      fontStyle: FontStyle.italic,
+                                    ),
+                                  ),
+                              ],
+                            ),
                           ),
-                          // Placeholder for crown icon
+                          // User avatar
                           Container(
                             width: 60,
                             height: 60,
@@ -84,7 +141,11 @@ class AccountPage extends StatelessWidget {
                               shape: BoxShape.circle,
                               color: Colors.grey[200],
                             ),
-                            child: Icon(Icons.star, size: 40, color: Colors.grey[600]), // Crown icon placeholder
+                            child: Icon(
+                              Icons.person,
+                              size: 40,
+                              color: Colors.grey[600],
+                            ),
                           ),
                         ],
                       ),
@@ -204,21 +265,95 @@ class AccountPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              // Other Sections
+              // Account Actions Section
               Card(
                 elevation: 4,
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Column(
-                  children: [
-                    _buildAccountMenuItem(Icons.confirmation_num, 'Ví voucher', trailingText: '22'),
-                    _buildAccountMenuItem(Icons.currency_bitcoin, 'Tài khoản F-Point'),
-                    _buildAccountMenuItem(Icons.games, 'Hoạt động F-Game'),
-                    _buildAccountMenuItem(Icons.favorite_border, 'Sản phẩm yêu thích'),
-                    _buildAccountMenuItem(Icons.book, 'Sách theo bộ'),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Tài khoản',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      _buildAccountActionItem(
+                        context,
+                        Icons.person,
+                        'Thông tin cá nhân',
+                        () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Thông tin cá nhân')),
+                          );
+                        },
+                      ),
+                      _buildAccountActionItem(
+                        context,
+                        Icons.location_on,
+                        'Địa chỉ giao hàng',
+                        () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Địa chỉ giao hàng')),
+                          );
+                        },
+                      ),
+                      _buildAccountActionItem(
+                        context,
+                        Icons.payment,
+                        'Phương thức thanh toán',
+                        () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Phương thức thanh toán')),
+                          );
+                        },
+                      ),
+                      _buildAccountActionItem(
+                        context,
+                        Icons.notifications,
+                        'Thông báo',
+                        () {
+                          context.push(AppRoutes.notifications);
+                        },
+                      ),
+                      _buildAccountActionItem(
+                        context,
+                        Icons.help,
+                        'Trợ giúp',
+                        () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Trợ giúp')),
+                          );
+                        },
+                      ),
+                      _buildAccountActionItem(
+                        context,
+                        Icons.history,
+                        'Lịch sử đơn hàng',
+                        () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (_) => const OrderHistoryPage()),
+                          );
+                        },
+                      ),
+                      _buildAccountActionItem(
+                        context,
+                        Icons.logout,
+                        'Đăng xuất',
+                        () {
+                          _showLogoutDialog(context);
+                        },
+                        isDestructive: true,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -231,43 +366,81 @@ class AccountPage extends StatelessWidget {
   Widget _buildOrderStatusItem(IconData icon, String label) {
     return Column(
       children: [
-        Icon(icon, size: 30, color: Colors.grey[700]),
+        Container(
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            borderRadius: BorderRadius.circular(25),
+          ),
+          child: Icon(icon, color: Colors.grey[600], size: 24),
+        ),
         const SizedBox(height: 8),
         Text(
           label,
+          style: const TextStyle(fontSize: 12),
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 12, color: Colors.grey[700]),
         ),
       ],
     );
   }
 
-  Widget _buildAccountMenuItem(IconData icon, String title, {String? trailingText}) {
-    return Column(
-      children: [
-        ListTile(
-          leading: Icon(icon, color: Colors.black87),
-          title: Text(title, style: const TextStyle(fontSize: 16)),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (trailingText != null)
-                Text(
-                  trailingText,
-                  style: const TextStyle(
-                    color: Color(0xFFC92127),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
-            ],
-          ),
-          onTap: () {
-            // Handle tap
-          },
+  Widget _buildAccountActionItem(
+    BuildContext context,
+    IconData icon,
+    String label,
+    VoidCallback onTap, {
+    bool isDestructive = false,
+  }) {
+    return ListTile(
+      leading: Icon(
+        icon,
+        color: isDestructive ? Colors.red : Colors.grey[600],
+      ),
+      title: Text(
+        label,
+        style: TextStyle(
+          color: isDestructive ? Colors.red : Colors.black87,
+          fontWeight: isDestructive ? FontWeight.w600 : FontWeight.normal,
         ),
-        const Divider(height: 1),
-      ],
+      ),
+      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+      onTap: onTap,
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Đăng xuất'),
+          content: const Text('Bạn có chắc chắn muốn đăng xuất?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Hủy'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                authService.logout();
+                context.go(AppRoutes.login);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Đã đăng xuất thành công'),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              },
+              child: const Text(
+                'Đăng xuất',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 } 

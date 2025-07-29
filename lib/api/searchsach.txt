@@ -1,0 +1,64 @@
+http://localhost:5070/api/SanPham?page=1&pageSize=10&search=keyword&sortBy=tenSanPham&sortOrder=asc&maTheLoai=1&minPrice=0&maxPrice=100000
+
+{
+    "$id": "1",
+    "success": true,
+    "message": "Lấy danh sách sản phẩm thành công",
+    "data": {
+        "$id": "2",
+        "$values": [
+            {
+                "$id": "3",
+                "id": 2,
+                "title": "Chí Phèo",
+                "description": "Truyện ngắn nổi tiếng của Nam Cao",
+                "price": 80000.00,
+                "image": "uploads/0ed2ececf271dad5a0afbe37a8f31a4e.jpg",
+                "quantity": 192,
+                "status": "Còn hàng",
+                "publicationDate": "2020-02-01T00:00:00",
+                "isbn": "9786040000002",
+                "pageCount": 150,
+                "language": "Tiếng Việt",
+                "category": {
+                    "$id": "4",
+                    "id": 2,
+                    "name": "Truyện ngắn"
+                },
+                "author": {
+                    "$id": "5",
+                    "id": 2,
+                    "name": "Nam Cao",
+                    "birthday": "1915-10-29T00:00:00",
+                    "country": "Việt Nam",
+                    "bio": "Nhà văn hiện thực xuất sắc",
+                    "image": "default.jpg"
+                },
+                "publisher": {
+                    "$id": "6",
+                    "id": 1,
+                    "name": "NXB Văn học",
+                    "address": "Hà Nội",
+                    "phone": "0241234567",
+                    "email": "info@nxbvanhoc.com"
+                },
+                "promotion": {
+                    "$id": "7",
+                    "id": 8,
+                    "name": "Giảm giá 20%",
+                    "discount": 20.00,
+                    "startDate": "2024-06-01T00:00:00",
+                    "endDate": "2024-08-31T00:00:00",
+                    "description": "Giảm giá 20% cho sách văn học"
+                }
+            }
+        ]
+    },
+    "pagination": {
+        "$id": "8",
+        "page": 1,
+        "limit": 10,
+        "total": 1,
+        "totalPages": 1
+    }
+}

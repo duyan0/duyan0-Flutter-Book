@@ -1,0 +1,33 @@
+http://localhost:5070/api/Admin/login
+
+{
+  "taiKhoan": "admin",
+  "matKhau": "admin123"
+}
+
+{
+    "$id": "1",
+    "id": 1,
+    "hoTen": "Nguyễn Văn Admin",
+    "email": "admin@bookstore.com",
+    "vaiTro": "Quản trị viên",
+    "taiKhoan": "admin"
+}
+
+http://localhost:5070/api/Admin
+
+{
+    "$id": "1",
+    "$values": [
+        {
+            "$id": "2",
+            "id": 1,
+            "hoTen": "Nguyễn Văn Admin",
+            "email": "admin@bookstore.com",
+            "soDT": "0123456789",
+            "vaiTro": "Quản trị viên",
+            "taiKhoan": "admin",
+            "matKhau": "admin123"
+        }
+    ]
+}

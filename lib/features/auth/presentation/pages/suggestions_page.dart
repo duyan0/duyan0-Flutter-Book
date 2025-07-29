@@ -1,8 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:bookstore/services/product_service.dart';
+import 'package:bookstore/models/product.dart';
+import 'package:bookstore/features/book/presentation/pages/book_detail_page.dart';
 
-class SuggestionsPage extends StatelessWidget {
+class SuggestionsPage extends StatefulWidget {
   const SuggestionsPage({super.key});
+
+  @override
+  State<SuggestionsPage> createState() => _SuggestionsPageState();
+}
+
+class _SuggestionsPageState extends State<SuggestionsPage> {
+  late Future<List<Product>> _suggestedProductsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _suggestedProductsFuture = ProductService.getAllProducts();
+  }
 
   void _showFeatureInDevelopment(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -16,240 +32,147 @@ class SuggestionsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Sample book data (replace with actual data from your model later)
-    final List<Map<String, dynamic>> books = [
-      {
-        'image': 'lib/core/assets/8935235241848.jpeg',
-        'title': 'Hành Trình Về Phương Đông',
-        'current_price': '90.500',
-        'old_price': '118.000',
-        'discount': '-23%',
-        'sold': '652',
-        'rating': null,
-        'label': null,
-      },
-      {
-        'image': 'lib/core/assets/2030xuhuonglon.jpg',
-        'title': '25 Chuyên Đề Ngữ P...',
-        'current_price': '86.500',
-        'old_price': '110.000',
-        'discount': '-21%',
-        'sold': '185',
-        'rating': '4.9',
-        'label': 'Tập 1',
-      },
-      {
-        'image': 'lib/core/assets/8935235237773.jpeg',
-        'title': 'Giấy photo Double A...',
-        'current_price': '106.950',
-        'old_price': '118.000',
-        'discount': '-9%',
-        'sold': '1.2k',
-        'rating': null,
-        'label': 'FREESHIP 30K',
-      },
-      {
-        'image': 'lib/core/assets/8935235234338.jpeg',
-        'title': 'Prepare A2 Level 3 W...',
-        'current_price': '113.050',
-        'old_price': '119.000',
-        'discount': '-5%',
-        'sold': '205',
-        'rating': null,
-        'label': 'Level 3',
-      },
-      {
-        'image': 'lib/core/assets/8934974182375.jpeg',
-        'title': 'Cân Bằng Cảm Xúc',
-        'current_price': '99.000',
-        'old_price': '120.000',
-        'discount': '-17%',
-        'sold': '500',
-        'rating': null,
-        'label': null,
-      },
-      {
-        'image': 'lib/core/assets/8934974180098_1.jpeg',
-        'title': 'Thiết Kế Cuộc Đời',
-        'current_price': '85.000',
-        'old_price': '100.000',
-        'discount': '-15%',
-        'sold': '700',
-        'rating': null,
-        'label': null,
-      },
-    ];
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Gợi ý cho bạn',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: const Color(0xFFC92127),
+        title: const Text('Gợi ý cho bạn'),
       ),
-      body: Padding(
-        padding: EdgeInsets.zero,
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 0,
-            mainAxisSpacing: 0,
-            childAspectRatio: 0.65,
-          ),
-          itemCount: books.length,
-          itemBuilder: (context, index) {
-            final book = books[index];
-            return GestureDetector(
-              onTap: () {
-                _showFeatureInDevelopment(context);
-                // context.push(
-                //   '/home/product-detail',
-                //   extra: {'image': book['image'], 'title': book['title']},
-                // );
-              },
-              child: Card(
-                elevation: 0.5,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                clipBehavior: Clip.antiAlias,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Stack(
+      body: RefreshIndicator(
+        onRefresh: () async {
+          setState(() {
+            _suggestedProductsFuture = ProductService.getAllProducts();
+          });
+        },
+        child: FutureBuilder<List<Product>>(
+          future: _suggestedProductsFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Lỗi: ${snapshot.error}'));
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return const Center(child: Text('Không có sản phẩm gợi ý nào.'));
+            }
+
+            final products = snapshot.data!;
+            return GridView.builder(
+              padding: const EdgeInsets.all(10),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.9,
+                crossAxisSpacing: 6,
+                mainAxisSpacing: 6,
+              ),
+              itemCount: products.length,
+              itemBuilder: (context, index) {
+                final product = products[index];
+                final bool hasDiscount = product.promotion != null && product.promotion!.discount != null && product.promotion!.discount! > 0;
+                final double price = product.price ?? 0;
+                final double discount = hasDiscount ? product.promotion!.discount! : 0;
+                final double priceAfterDiscount = hasDiscount ? calculateDiscountedPrice(price, discount) : price;
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BookDetailPage(product: product),
+                      ),
+                    );
+                  },
+                  child: Card(
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Image.asset(
-                          book['image'],
-                          height: 180,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
-                        if (book['label'] != null)
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.7),
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(8),
-                                ),
-                              ),
-                              child: Text(
-                                book['label'],
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
+                        ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                          ),
+                          child: Image.network(
+                            product.hinhAnhUrl ?? 'http://10.0.2.2:5070/uploads/default.jpg',
+                            height: 100,
+                            width: double.infinity,
+                            fit: BoxFit.contain,
+                            errorBuilder: (context, error, stackTrace) => Container(
+                              height: 100,
+                              width: double.infinity,
+                              color: Colors.grey[200],
+                              child: const Icon(Icons.book, size: 44, color: Colors.grey),
                             ),
                           ),
-                      ],
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              book['title'],
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 13,
-                                height: 1.5,
-                              ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${book['current_price']} đ',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                    color: Color(0xFFC92127),
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Row(
-                                  children: [
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                          child: Text(
+                            product.title ?? 'Không có tiêu đề',
+                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  if (hasDiscount) ...[
                                     Text(
-                                      book['old_price'] + ' đ',
+                                      _formatCurrency(price),
                                       style: const TextStyle(
-                                        decoration: TextDecoration.lineThrough,
                                         color: Colors.grey,
-                                        fontSize: 10,
+                                        fontSize: 12,
+                                        decoration: TextDecoration.lineThrough,
                                       ),
                                     ),
                                     const SizedBox(width: 4),
-                                    if (book['discount'] != null)
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFFC92127).withOpacity(0.1),
-                                          borderRadius: BorderRadius.circular(4),
-                                        ),
-                                        child: Text(
-                                          book['discount'],
-                                          style: const TextStyle(
-                                            color: Color(0xFFC92127),
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                                      decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius: BorderRadius.circular(5),
                                       ),
-                                  ],
-                                ),
-                                const SizedBox(height: 4),
-                                Row(
-                                  children: [
-                                    if (book['rating'] != null) ...[
-                                      const Icon(Icons.star, color: Colors.amber, size: 14),
-                                      const SizedBox(width: 2),
-                                      Text(
-                                        book['rating'],
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                    ],
-                                    Text(
-                                      'Đã bán ${book['sold']}',
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.w500,
+                                      child: Text(
+                                        '-${discount.toInt()}%',
+                                        style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                   ],
+                                ],
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                _formatCurrency(priceAfterDiscount),
+                                style: const TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
                                 ),
-                              ],
-                            ),
-                          ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             );
           },
         ),
       ),
     );
+  }
+
+  double calculateDiscountedPrice(double price, double discount) {
+    return price * (1 - discount / 100);
+  }
+
+  String _formatCurrency(double? value) {
+    if (value == null) return '';
+    return value.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => "${m[1]}.") + ' đ';
   }
 } 

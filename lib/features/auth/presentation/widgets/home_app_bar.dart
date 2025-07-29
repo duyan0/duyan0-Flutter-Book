@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:bookstore/features/cart/presentation/pages/cart_page.dart';
+import 'package:bookstore/features/product/screens/product_search_screen.dart';
+import 'package:bookstore/services/cart_service.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBar({super.key});
 
   @override
-  Size get preferredSize => const Size.fromHeight(60);
+  Size get preferredSize => const Size.fromHeight(56);
 
   @override
   Widget build(BuildContext context) {
@@ -12,63 +15,73 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: const Color(0xFFC92127),
       elevation: 0,
       title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Icon(Icons.menu_book, color: Colors.white, size: 24),
+          const SizedBox(width: 6),
           const Text(
             'BookStore',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                children: [
-                  const SizedBox(width: 12),
-                  Icon(Icons.search, color: Colors.grey[600], size: 20),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Tìm kiếm sách...',
-                        hintStyle: TextStyle(color: Colors.grey[600], fontSize: 14),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(color: Colors.white),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(color: Colors.white),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(color: Colors.white),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(vertical: 8),
-                      ),
-                    ),
-                  ),
-                  Icon(Icons.qr_code_scanner, color: Colors.grey[600], size: 20),
-                  const SizedBox(width: 12),
-                ],
-              ),
+              letterSpacing: 1.1,
             ),
           ),
         ],
       ),
+      centerTitle: true,
       actions: [
         IconButton(
-          icon: const Icon(Icons.grid_view, color: Colors.white),
-          onPressed: () {},
+          icon: const Icon(Icons.search, color: Colors.white),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ProductSearchScreen(initialQuery: ''),
+              ),
+            );
+          },
         ),
-        const SizedBox(width: 8),
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.shopping_cart, color: Colors.white),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const CartPage()),
+                );
+              },
+            ),
+            if (CartService.getCartItems().isNotEmpty)
+              Positioned(
+                top: 8,
+                right: 8,
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  constraints: const BoxConstraints(
+                    minWidth: 16,
+                    minHeight: 16,
+                  ),
+                  child: Text(
+                    '${CartService.getCartItems().length}',
+                    style: const TextStyle(
+                      color: Color(0xFFC92127),
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+          ],
+        ),
       ],
     );
   }

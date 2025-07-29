@@ -13,6 +13,8 @@ import 'package:bookstore/features/product/screens/product_detail_screen.dart';
 import 'package:bookstore/features/auth/presentation/pages/account_page.dart';
 import 'package:bookstore/features/auth/presentation/pages/suggestions_page.dart';
 import 'package:bookstore/features/auth/presentation/pages/notifications_page.dart';
+import 'package:bookstore/features/auth/presentation/pages/otp_verification_page.dart';
+import 'package:bookstore/models/khach_hang.dart';
 
 // HomeShell widget for fixed bottom navigation
 class HomeShell extends StatefulWidget {
@@ -143,9 +145,8 @@ final GoRouter router = GoRouter(
           name: 'product_detail',
           builder: (context, state) {
             final Map<String, dynamic> args = state.extra as Map<String, dynamic>;
-            final String image = args['image'] as String;
-            final String title = args['title'] as String;
-            return ProductDetailScreen(image: image, title: title);
+            final int productId = args['productId'] as int;
+            return ProductDetailScreen(productId: productId);
           },
         ),
         GoRoute(
@@ -169,6 +170,17 @@ final GoRouter router = GoRouter(
           builder: (context, state) => const CartPage(),
         ),
       ],
+    ),
+    GoRoute(
+      path: '/otp-verification',
+      name: 'otp_verification',
+      builder: (context, state) {
+        final khachHang = state.extra as KhachHang?;
+        if (khachHang == null) {
+          return const RegisterPage();
+        }
+        return OtpVerificationPage(khachHang: khachHang);
+      },
     ),
   ],
 );

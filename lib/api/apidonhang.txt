@@ -1,0 +1,295 @@
+http://localhost:5070/api/donhang
+
+{
+    "$id": "1",
+    "success": true,
+    "message": "Lấy danh sách đơn hàng thành công",
+    "data": {
+        "$id": "2",
+        "items": {
+            "$id": "3",
+            "$values": [
+                {
+                    "$id": "4",
+                    "maDonHang": 54,
+                    "maKhachHang": 10,
+                    "tenKhachHang": "Như",
+                    "ngayDatHang": "2025-07-14T21:45:51.753",
+                    "ngayGiaoHang": null,
+                    "diaChiGiaoHang": "Test a ch",
+                    "soDienThoai": "0848881949",
+                    "ghiChu": null,
+                    "tongTien": 1250000.00,
+                    "trangThai": "Chờ xác nhận",
+                    "chiTietDonHang": {
+                        "$id": "5",
+                        "$values": [
+                            {
+                                "$id": "6",
+                                "maDonHangChiTiet": 51,
+                                "maSanPham": 12,
+                                "tenSanPham": "Sách này hết hàng",
+                                "soLuong": 5,
+                                "donGia": 250000.00,
+                                "thanhTien": 1250000.0000
+                            }
+                        ]
+                    }
+                },
+                {
+                    "$id": "7",
+                    "maDonHang": 53,
+                    "maKhachHang": 1,
+                    "tenKhachHang": "Nguyễn Văn A",
+                    "ngayDatHang": "2025-07-14T21:45:48.857",
+                    "ngayGiaoHang": null,
+                    "diaChiGiaoHang": "Demo Address",
+                    "soDienThoai": "0987654321",
+                    "ghiChu": null,
+                    "tongTien": 1250000.00,
+                    "trangThai": "Chờ xác nhận",
+                    "chiTietDonHang": {
+                        "$id": "8",
+                        "$values": [
+                            {
+                                "$id": "9",
+                                "maDonHangChiTiet": 50,
+                                "maSanPham": 12,
+                                "tenSanPham": "Sách này hết hàng",
+                                "soLuong": 5,
+                                "donGia": 250000.00,
+                                "thanhTien": 1250000.0000
+                            }
+                        ]
+                    }
+                },
+                {
+                    "$id": "10",
+                    "maDonHang": 52,
+                    "maKhachHang": 10,
+                    "tenKhachHang": "Như",
+                    "ngayDatHang": "2025-07-14T21:44:00.39",
+                    "ngayGiaoHang": null,
+                    "diaChiGiaoHang": "Test a ch",
+                    "soDienThoai": "0848881949",
+                    "ghiChu": null,
+                    "tongTien": 320000.00,
+                    "trangThai": "Chờ xác nhận",
+                    "chiTietDonHang": {
+                        "$id": "11",
+                        "$values": [
+                            {
+                                "$id": "12",
+                                "maDonHangChiTiet": 49,
+                                "maSanPham": 2,
+                                "tenSanPham": "Chí Phèo",
+                                "soLuong": 4,
+                                "donGia": 80000.00,
+                                "thanhTien": 320000.0000
+                            }
+                        ]
+                    }
+                },
+                {
+                    "$id": "13",
+                    "maDonHang": 51,
+                    "maKhachHang": 1,
+                    "tenKhachHang": "Nguyễn Văn A",
+                    "ngayDatHang": "2025-07-14T21:43:40.097",
+                    "ngayGiaoHang": null,
+                    "diaChiGiaoHang": "Demo Address",
+                    "soDienThoai": "0987654321",
+                    "ghiChu": null,
+                    "tongTien": 80000.00,
+                    "trangThai": "Chờ xác nhận",
+                    "chiTietDonHang": {
+                        "$id": "14",
+                        "$values": [
+                            {
+                                "$id": "15",
+                                "maDonHangChiTiet": 48,
+                                "maSanPham": 2,
+                                "tenSanPham": "Chí Phèo",
+                                "soLuong": 1,
+                                "donGia": 80000.00,
+                                "thanhTien": 80000.0000
+                            }
+                        ]
+                    }
+                },
+                {
+                    "$id": "16",
+                    "maDonHang": 50,
+                    "maKhachHang": 1,
+                    "tenKhachHang": "Nguyễn Văn A",
+                    "ngayDatHang": "2025-07-14T21:43:39.92",
+                    "ngayGiaoHang": null,
+                    "diaChiGiaoHang": "Demo Address",
+                    "soDienThoai": "0987654321",
+                    "ghiChu": null,
+                    "tongTien": 80000.00,
+                    "trangThai": "Chờ xác nhận",
+                    "chiTietDonHang": {
+                        "$id": "17",
+                        "$values": [
+                            {
+                                "$id": "18",
+                                "maDonHangChiTiet": 47,
+                                "maSanPham": 2,
+                                "tenSanPham": "Chí Phèo",
+                                "soLuong": 1,
+                                "donGia": 80000.00,
+                                "thanhTien": 80000.0000
+                            }
+                        ]
+                    }
+                },
+                {
+                    "$id": "19",
+                    "maDonHang": 49,
+                    "maKhachHang": 1,
+                    "tenKhachHang": "Nguyễn Văn A",
+                    "ngayDatHang": "2025-07-14T21:43:39.53",
+                    "ngayGiaoHang": null,
+                    "diaChiGiaoHang": "Demo Address",
+                    "soDienThoai": "0987654321",
+                    "ghiChu": null,
+                    "tongTien": 80000.00,
+                    "trangThai": "Chờ xác nhận",
+                    "chiTietDonHang": {
+                        "$id": "20",
+                        "$values": [
+                            {
+                                "$id": "21",
+                                "maDonHangChiTiet": 46,
+                                "maSanPham": 2,
+                                "tenSanPham": "Chí Phèo",
+                                "soLuong": 1,
+                                "donGia": 80000.00,
+                                "thanhTien": 80000.0000
+                            }
+                        ]
+                    }
+                },
+                {
+                    "$id": "22",
+                    "maDonHang": 48,
+                    "maKhachHang": 1,
+                    "tenKhachHang": "Nguyễn Văn A",
+                    "ngayDatHang": "2025-07-14T21:43:38.713",
+                    "ngayGiaoHang": null,
+                    "diaChiGiaoHang": "Demo Address",
+                    "soDienThoai": "0987654321",
+                    "ghiChu": null,
+                    "tongTien": 80000.00,
+                    "trangThai": "Chờ xác nhận",
+                    "chiTietDonHang": {
+                        "$id": "23",
+                        "$values": [
+                            {
+                                "$id": "24",
+                                "maDonHangChiTiet": 45,
+                                "maSanPham": 2,
+                                "tenSanPham": "Chí Phèo",
+                                "soLuong": 1,
+                                "donGia": 80000.00,
+                                "thanhTien": 80000.0000
+                            }
+                        ]
+                    }
+                },
+                {
+                    "$id": "25",
+                    "maDonHang": 47,
+                    "maKhachHang": 10,
+                    "tenKhachHang": "Như",
+                    "ngayDatHang": "2025-07-14T21:27:20.987",
+                    "ngayGiaoHang": null,
+                    "diaChiGiaoHang": "95 ngun minh hoang",
+                    "soDienThoai": "0848881949",
+                    "ghiChu": null,
+                    "tongTien": 150000.00,
+                    "trangThai": "Chờ xác nhận",
+                    "chiTietDonHang": {
+                        "$id": "26",
+                        "$values": [
+                            {
+                                "$id": "27",
+                                "maDonHangChiTiet": 44,
+                                "maSanPham": 1,
+                                "tenSanPham": "Truyện Kiều",
+                                "soLuong": 1,
+                                "donGia": 150000.00,
+                                "thanhTien": 150000.0000
+                            }
+                        ]
+                    }
+                },
+                {
+                    "$id": "28",
+                    "maDonHang": 46,
+                    "maKhachHang": 1,
+                    "tenKhachHang": "Nguyễn Văn A",
+                    "ngayDatHang": "2025-07-14T21:27:04.56",
+                    "ngayGiaoHang": null,
+                    "diaChiGiaoHang": "Demo Address",
+                    "soDienThoai": "0987654321",
+                    "ghiChu": null,
+                    "tongTien": 150000.00,
+                    "trangThai": "Chờ xác nhận",
+                    "chiTietDonHang": {
+                        "$id": "29",
+                        "$values": [
+                            {
+                                "$id": "30",
+                                "maDonHangChiTiet": 43,
+                                "maSanPham": 1,
+                                "tenSanPham": "Truyện Kiều",
+                                "soLuong": 1,
+                                "donGia": 150000.00,
+                                "thanhTien": 150000.0000
+                            }
+                        ]
+                    }
+                },
+                {
+                    "$id": "31",
+                    "maDonHang": 45,
+                    "maKhachHang": 1,
+                    "tenKhachHang": "Nguyễn Văn A",
+                    "ngayDatHang": "2025-07-14T21:25:15.043",
+                    "ngayGiaoHang": null,
+                    "diaChiGiaoHang": "Demo Address",
+                    "soDienThoai": "0987654321",
+                    "ghiChu": null,
+                    "tongTien": 150000.00,
+                    "trangThai": "Chờ xác nhận",
+                    "chiTietDonHang": {
+                        "$id": "32",
+                        "$values": [
+                            {
+                                "$id": "33",
+                                "maDonHangChiTiet": 42,
+                                "maSanPham": 1,
+                                "tenSanPham": "Truyện Kiều",
+                                "soLuong": 1,
+                                "donGia": 150000.00,
+                                "thanhTien": 150000.0000
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "pagination": {
+            "$id": "34",
+            "currentPage": 1,
+            "pageSize": 10,
+            "totalCount": 54,
+            "totalPages": 6,
+            "hasNext": true,
+            "hasPrevious": false
+        }
+    },
+    "pagination": null
+}

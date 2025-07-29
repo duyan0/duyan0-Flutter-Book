@@ -1,96 +1,74 @@
 import 'package:flutter/material.dart';
-import 'package:bookstore/core/constants/app_colors.dart';
+import 'package:bookstore/features/product/screens/product_search_screen.dart';
 
-class HomeSearchBar extends StatelessWidget implements PreferredSizeWidget {
-  final bool isSearching;
-  final TextEditingController searchController;
-  final List<String> searchHistory;
-  final VoidCallback onToggleSearch;
-  final Function(String) onSearchSubmitted;
-
+class HomeSearchBar extends StatelessWidget {
+  final bool autoFocus;
+  final TextEditingController? controller;
+  final Function(String)? onSearch;
+  
   const HomeSearchBar({
-    super.key,
-    required this.isSearching,
-    required this.searchController,
-    required this.searchHistory,
-    required this.onToggleSearch,
-    required this.onSearchSubmitted,
-  });
-
-  @override
-  Size get preferredSize => const Size.fromHeight(52);
+    Key? key,
+    this.autoFocus = false,
+    this.controller,
+    this.onSearch,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      backgroundColor: AppColors.primaryColor,
-      elevation: 0,
-      title: isSearching
-          ? Container(
-              height: 34,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      color: Colors.white,
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              height: 40,
               decoration: BoxDecoration(
-                color: Colors.white,
-                
+                color: Colors.grey[100],
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.grey[300]!),
               ),
-              child: Row(
-                children: [
-                  const SizedBox(width: 8),
-                  const Icon(Icons.search, color: Colors.grey, size: 20),
-                  const SizedBox(width: 4),
-                  Expanded(
-                    child: TextField(
-                      controller: searchController,
-                     
-                      decoration: const InputDecoration(
-                        hintText: 'Tìm kiếm sách...',
-                       
-                       
-                        
-                      ),
-                      style: const TextStyle(fontSize: 14, color: Colors.black87),
-                      onSubmitted: onSearchSubmitted,
-                    ),
-                  ),
-                  if (searchController.text.isNotEmpty)
-                    IconButton(
-                      icon: const Icon(Icons.clear, color: Colors.grey, size: 18),
-                      splashRadius: 16,
-                      onPressed: () {
-                        searchController.clear();
-                      },
-                    ),
-                  const SizedBox(width: 4),
-                ],
-              ),
-            )
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.menu_book, color: Colors.white, size: 24),
-                const SizedBox(width: 6),
-                const Text(
-                  'BookStore',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.1,
-                  ),
+              child: TextField(
+                controller: controller,
+                autofocus: autoFocus,
+                decoration: InputDecoration(
+                  hintText: 'Tìm kiếm sách, tác giả...',
+                  hintStyle: TextStyle(color: Colors.grey[500], fontSize: 14),
+                  prefixIcon: Icon(Icons.search, color: Colors.grey[500]),
+                  border: InputBorder.none,
+                  contentPadding: const EdgeInsets.symmetric(vertical: 10),
                 ),
-              ],
+                textInputAction: TextInputAction.search,
+                onSubmitted: (value) {
+                  if (onSearch != null) {
+                    onSearch!(value);
+                  } else {
+                    _navigateToSearch(context, value);
+                  }
+                },
+              ),
             ),
-      centerTitle: true,
-      actions: [
-        IconButton(
-          icon: Icon(
-            isSearching ? Icons.close : Icons.search,
-            color: Colors.white,
-            size: 20,
           ),
-          splashRadius: 20,
-          onPressed: onToggleSearch,
-        ),
-      ],
+          if (controller != null && controller!.text.isNotEmpty)
+            IconButton(
+              icon: const Icon(Icons.clear, color: Colors.grey),
+              onPressed: () {
+                controller!.clear();
+              },
+            ),
+        ],
+      ),
     );
+  }
+  
+  void _navigateToSearch(BuildContext context, String query) {
+    if (query.trim().isNotEmpty) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ProductSearchScreen(initialQuery: query),
+        ),
+      );
+    }
   }
 } 

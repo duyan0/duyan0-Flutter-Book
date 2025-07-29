@@ -1,18 +1,95 @@
 import 'package:flutter/material.dart';
 import 'package:bookstore/core/constants/app_colors.dart';
 import 'package:bookstore/core/navigation/routes.dart';
+import 'package:bookstore/services/auth_service.dart';
 import '../widgets/auth_text_field.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
+  State<LoginPage> createState() => _LoginPageState();
+}
 
+class _LoginPageState extends State<LoginPage> {
+  final formKey = GlobalKey<FormState>();
+  final TextEditingController _taiKhoanController = TextEditingController();
+  final TextEditingController _matKhauController = TextEditingController();
+  bool _isLoading = false;
+  bool _obscurePassword = true;
+
+  @override
+  void dispose() {
+    _taiKhoanController.dispose();
+    _matKhauController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _login() async {
+    if (!formKey.currentState!.validate()) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final result = await AuthService().login(
+        _taiKhoanController.text.trim(),
+        _matKhauController.text,
+      );
+
+      if (result['success']) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(result['message']),
+              backgroundColor: Colors.green,
+              duration: const Duration(seconds: 2),
+            ),
+          );
+          
+          // Chuyển hướng đến HomePage sau 1 giây
+          Future.delayed(const Duration(seconds: 3), () {
+            if (mounted) {
+              context.go(AppRoutes.home);
+            }
+          });
+        }
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(result['message']),
+              backgroundColor: Colors.red,
+              duration: const Duration(seconds: 3),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Lỗi: $e'),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor, // #F5F5F5
+      backgroundColor: AppColors.backgroundColor,
       body: LayoutBuilder(
         builder: (context, constraints) {
           double padding = constraints.maxWidth > 600 ? 32.0 : 16.0;
@@ -32,7 +109,7 @@ class LoginPage extends StatelessWidget {
                         Icon(
                           Icons.book,
                           size: 80,
-                          color: AppColors.primaryColor, // #C92127
+                          color: AppColors.primaryColor,
                         ),
                         const SizedBox(height: 16),
                         // Tiêu đề
@@ -44,19 +121,15 @@ class LoginPage extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        // Trường email
+                        const SizedBox(height: 32),
+                        // Trường tài khoản
                         AuthTextField(
-                          label: 'Email',
-                          prefixIcon: Icons.email,
+                          controller: _taiKhoanController,
+                          label: 'Tài khoản',
+                          prefixIcon: Icons.person,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Vui lòng nhập email';
-                            }
-                            if (!RegExp(
-                              r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                            ).hasMatch(value)) {
-                              return 'Email không hợp lệ';
+                              return 'Vui lòng nhập tài khoản';
                             }
                             return null;
                           },
@@ -64,9 +137,21 @@ class LoginPage extends StatelessWidget {
                         const SizedBox(height: 16),
                         // Trường mật khẩu
                         AuthTextField(
+                          controller: _matKhauController,
                           label: 'Mật khẩu',
-                          obscureText: true,
+                          obscureText: _obscurePassword,
                           prefixIcon: Icons.lock,
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                              color: AppColors.textColor,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscurePassword = !_obscurePassword;
+                              });
+                            },
+                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Vui lòng nhập mật khẩu';
@@ -83,12 +168,11 @@ class LoginPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             TextButton(
-                              onPressed:
-                                  () => context.push(AppRoutes.forgotPassword),
+                              onPressed: () => context.push(AppRoutes.forgotPassword),
                               child: Text(
                                 'Quên mật khẩu?',
                                 style: TextStyle(
-                                  color: AppColors.secondaryColor, // #FFC107
+                                  color: AppColors.secondaryColor,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 14,
                                 ),
@@ -99,7 +183,7 @@ class LoginPage extends StatelessWidget {
                               child: Text(
                                 'Chưa có tài khoản? Đăng ký',
                                 style: TextStyle(
-                                  color: AppColors.secondaryColor, // #FFC107
+                                  color: AppColors.secondaryColor,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 14,
                                 ),
@@ -107,30 +191,14 @@ class LoginPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 24),
                         // Nút đăng nhập
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                // Hiển thị thông báo
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Đăng nhập thành công!'),
-                                    duration: Duration(seconds: 1),
-                                  ),
-                                );
-                                // Chuyển hướng đến HomePage sau 1 giây
-                                Future.delayed(const Duration(seconds: 1), () {
-                                  // ignore: use_build_context_synchronously
-                                  context.go(AppRoutes.home);
-                                });
-                              }
-                            },
+                            onPressed: _isLoading ? null : _login,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  AppColors.primaryColor, // #C92127
+                              backgroundColor: AppColors.primaryColor,
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 32,
                                 vertical: 15,
@@ -139,10 +207,19 @@ class LoginPage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
-                            child: const Text(
-                              'Đăng nhập',
-                              style: TextStyle(fontSize: 16),
-                            ),
+                            child: _isLoading
+                                ? const SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                    ),
+                                  )
+                                : const Text(
+                                    'Đăng nhập',
+                                    style: TextStyle(fontSize: 16, color: Colors.white),
+                                  ),
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -150,7 +227,7 @@ class LoginPage extends StatelessWidget {
                         SizedBox(
                           width: double.infinity,
                           child: OutlinedButton.icon(
-                            onPressed: () {
+                            onPressed: _isLoading ? null : () {
                               // Xử lý đăng nhập Google (giả lập)
                             },
                             icon: Icon(

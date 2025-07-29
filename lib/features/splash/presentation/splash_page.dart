@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bookstore/core/constants/app_colors.dart';
 import 'package:bookstore/core/navigation/routes.dart';
 import 'package:go_router/go_router.dart';
+import 'package:bookstore/services/auth_service.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -40,7 +41,6 @@ class _SplashPageState extends State<SplashPage>
     // Chuyển hướng sau 2 giây
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
-        // Thử cách chuyển hướng khác
         context.go('/home');
       }
     });
